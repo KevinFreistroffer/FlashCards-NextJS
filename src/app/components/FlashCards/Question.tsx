@@ -1,5 +1,5 @@
+import { IFlashCard, IQuestion } from "@/_lib/definitions";
 import React from "react";
-import { IFlashCard, IQuestion } from "./FlashCards";
 
 const Question = ({
   data,
