@@ -9,14 +9,6 @@ import styles from "./styles.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-interface BodyProps {
-  text: string;
-}
-function getWindowSize() {
-  const { innerWidth, innerHeight } = window;
-  return { innerWidth, innerHeight };
-}
-
 export default function Body({
   children,
 }: Readonly<{
@@ -51,7 +43,10 @@ export default function Body({
     }
   }
 
-  useEffect(() => {}, []);
+  function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+  }
 
   return (
     <body className={`flex ${inter.className}`} onResize={onResize}>
