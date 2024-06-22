@@ -15,19 +15,19 @@ export default function Body({
   children: React.ReactNode;
 }>) {
   const [menuVisible, toggleMenu] = React.useState(false);
-
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
   useEffect(() => {
     function handleWindowResize() {
       setWindowSize(getWindowSize());
     }
+    if (window !== undefined) {
+      window.addEventListener("resize", handleWindowResize);
 
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
+      return () => {
+        window.removeEventListener("resize", handleWindowResize);
+      };
+    }
   }, []);
 
   useEffect(() => {
