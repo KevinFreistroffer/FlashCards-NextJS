@@ -52,18 +52,18 @@ const aws_questions: IFlashCard[] = [
     answer: [1],
     showAnswer: false,
   },
-  // {
-  //   question: `A company wants to create a learning application for students. The learning application must give students the option to choose a button to have the text read out loud to them.
-  // Which AWS machine learning service will meet this requirement?`,
-  //   choices: [
-  //     "Amazon Transcribe",
-  //     "Amazon Polly",
-  //     "Amazon Translate",
-  //     "Amazon Textract",
-  //   ],
-  //   answer: [1],
-  //   showAnswer: false,
-  // },
+  {
+    question: `A company wants to create a learning application for students. The learning application must give students the option to choose a button to have the text read out loud to them.
+  Which AWS machine learning service will meet this requirement?`,
+    choices: [
+      "Amazon Transcribe",
+      "Amazon Polly",
+      "Amazon Translate",
+      "Amazon Textract",
+    ],
+    answer: [1],
+    showAnswer: false,
+  },
   // {
   //   question: `Which of the functionalities are characteristics of Amazon S3? (Select TWO.)`,
   //   choices: [

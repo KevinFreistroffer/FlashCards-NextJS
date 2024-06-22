@@ -6,9 +6,15 @@ import { random, shuffle } from "lodash";
 import Question from "./Question";
 import aws_questions from "@/data/aws_questions";
 import { IFlashCard } from "@/_lib/definitions";
+/**
+ *
+ * @returns
+ */
 
 const FlashCards = () => {
-  const [cards, setCards] = React.useState<IFlashCard[]>([...aws_questions]);
+  const [cards, setCards] = React.useState<IFlashCard[]>(
+    shuffle([...aws_questions])
+  );
 
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
 
@@ -17,42 +23,80 @@ const FlashCards = () => {
   };
 
   const handlePrevCard = () => {
+    console.log("prev card", currentCardIndex);
     setCurrentCardIndex(
       (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
     );
+    console.log("prev cardz", currentCardIndex);
+    // setCards((state) => {
+    //   return state.map((card, index) => {
+    //     if (index === currentCardIndex) {
+    //       return {
+    //         ...card,
+    //         showAnswer: false,
+    //       };
+    //     } else {
+    //       return card;
+    //     }
+    //   });
+    // });
   };
 
-  const randomizeQuestions = () => {
+  const shuffleQuestions = () => {
     setCards((state) => {
       console.log("randomizing");
-      return shuffle(state);
+      const shuffledCards = shuffle(state);
+      return shuffledCards.map((card) => {
+        const { choices, answer } = card;
+        const shuffledChoices = shuffle(choices);
+        const correctAnswers: number[] = [];
+
+        choices.forEach((choice, choiceIndex) => {
+          // for each shuffledChoice
+          // given the choice index,
+          shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
+            //find in shuffledChoices the same string and get it's index if the choice index is an answer.
+            if (answer.includes(choiceIndex) && choice === shuffledChoice) {
+              correctAnswers.push(shuffledIndex);
+            }
+          });
+        });
+
+        return {
+          ...card,
+          choices: shuffledChoices,
+          answer: correctAnswers,
+          showAnswer: false,
+        };
+      });
     });
     setCurrentCardIndex(0);
   };
 
-  const handleShuffling = (data: IFlashCard) => {
-    const { choices, answer } = data;
-    const shuffledChoices = shuffle(choices);
-    const correctAnswers: number[] = [];
+  // const shuffleChoices = (data: IFlashCard) => {
+  //   const { choices, answer } = data;
+  //   const shuffledChoices = shuffle(choices);
+  //   const correctAnswers: number[] = [];
 
-    // for each choice
-    choices.forEach((choice, choiceIndex) => {
-      // for each shuffledChoice
-      // given the choice index,
-      shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
-        //find in shuffledChoices the same string and get it's index if the choice index is an answer.
-        if (answer.includes(choiceIndex) && choice === shuffledChoice) {
-          correctAnswers.push(shuffledIndex);
-        }
-      });
-    });
+  //   // for each choice
+  //   choices.forEach((choice, choiceIndex) => {
+  //     // for each shuffledChoice
+  //     // given the choice index,
+  //     shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
+  //       //find in shuffledChoices the same string and get it's index if the choice index is an answer.
+  //       if (answer.includes(choiceIndex) && choice === shuffledChoice) {
+  //         correctAnswers.push(shuffledIndex);
+  //       }
+  //     });
+  //   });
 
-    return {
-      ...data,
-      choices: shuffledChoices,
-      answer: correctAnswers,
-    };
-  };
+  //   return {
+  //     ...data,
+  //     choices: shuffledChoices,
+  //     answer: correctAnswers,
+  //     showAnswer: false,
+  //   };
+  // };
 
   return (
     <div
@@ -62,7 +106,7 @@ const FlashCards = () => {
         <h1 className="text-4xl  max-w-xl">AWS Practice Questions</h1>
         <button
           type="button"
-          onClick={randomizeQuestions}
+          onClick={shuffleQuestions}
           className="border rounded p-3 bg-black text-white pointer"
         >
           <i className="fa-solid fa-shuffle text-white"></i> Shuffle?
@@ -88,7 +132,7 @@ const FlashCards = () => {
         }}
       >
         <Question
-          data={handleShuffling(cards[currentCardIndex])}
+          data={cards[currentCardIndex]}
           numOfQuestions={cards.length}
           questionNumber={currentCardIndex + 1}
         />
