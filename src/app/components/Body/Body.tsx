@@ -44,8 +44,13 @@ export default function Body({
   }
 
   function getWindowSize() {
-    const { innerWidth, innerHeight } = window;
-    return { innerWidth, innerHeight };
+    if (window !== undefined) {
+      const { innerWidth, innerHeight } = window;
+      return { innerWidth, innerHeight };
+    }
+
+    throw new Error("Window is undefined?");
+    // return { innerWidth: undefined, innerHeight: undefined };
   }
 
   return (
