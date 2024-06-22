@@ -21,36 +21,30 @@ export default function Body({
     function handleWindowResize() {
       setWindowSize(getWindowSize());
     }
-    if (window !== undefined) {
-      window.addEventListener("resize", handleWindowResize);
 
-      return () => {
-        window.removeEventListener("resize", handleWindowResize);
-      };
-    }
+    // window.addEventListener("resize", handleWindowResize);
+
+    // return () => {
+    //   window.removeEventListener("resize", handleWindowResize);
+    // };
   }, []);
 
   useEffect(() => {
-    if (windowSize.innerWidth > 768 && menuVisible) {
-      toggleMenu(false);
-    }
+    // if (windowSize.innerWidth > 768 && menuVisible) {
+    //   toggleMenu(false);
+    // }
   }, [menuVisible, windowSize]);
 
   function onResize($event: any) {
     console.log("$event: ", $event);
-    if (window.innerWidth > 768) {
-      toggleMenu(false);
-    }
+    // if (window.innerWidth > 768) {
+    //   toggleMenu(false);
+    // }
   }
 
   function getWindowSize() {
-    if (window !== undefined) {
-      const { innerWidth, innerHeight } = window;
-      return { innerWidth, innerHeight };
-    }
-
-    throw new Error("Window is undefined?");
-    // return { innerWidth: undefined, innerHeight: undefined };
+    // const { innerWidth, innerHeight } = window;
+    // return { innerWidth, innerHeight };
   }
 
   return (
