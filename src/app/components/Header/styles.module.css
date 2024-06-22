@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav {
+}
+
+#menu-toggle {
+  display: block;
+  margin: auto;
+  cursor: pointer;
+}
+
+.nav__ul {
+  display: none;
+}
+
+@media only screen and (min-width: 769px) {
+  #menu-toggle {
+    display: none;
+  }
+  .nav__ul {
+    display: flex;
+  }
+}

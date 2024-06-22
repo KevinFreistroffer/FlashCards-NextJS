@@ -1,0 +1,19 @@
+#menu {
+  box-shadow: inset 4px -4px 17px 0px #0000001f;
+}
+
+.menu-open {
+  width: 40%;
+}
+
+.menu-hidden {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .menu-open {
+    width: 30%;
+  }
+}

@@ -1,0 +1,24 @@
+#not-menu-container {
+}
+
+.menu {
+  height: 100%;
+  padding: 5rem;
+  margin: 0;
+  background-color: white;
+  color: black;
+}
+
+.menu-open {
+  width: 60%;
+}
+
+.menu-closed {
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .menu-open {
+    width: 70%;
+  }
+}
