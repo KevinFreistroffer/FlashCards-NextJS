@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { publicRoutes } from "@/app/(public)/routes";
-import styles from "../header/styles.module.css";
+import styles from "./styles.module.css";
 
 const Nav = ({
   toggleMenu,
