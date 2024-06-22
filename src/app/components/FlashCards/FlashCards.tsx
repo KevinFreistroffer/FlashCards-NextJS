@@ -30,6 +30,30 @@ const FlashCards = () => {
     setCurrentCardIndex(0);
   };
 
+  const handleShuffling = (data: IFlashCard) => {
+    const { choices, answer } = data;
+    const shuffledChoices = shuffle(choices);
+    const correctAnswers: number[] = [];
+
+    // for each choice
+    choices.forEach((choice, choiceIndex) => {
+      // for each shuffledChoice
+      // given the choice index,
+      shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
+        //find in shuffledChoices the same string and get it's index if the choice index is an answer.
+        if (answer.includes(choiceIndex) && choice === shuffledChoice) {
+          correctAnswers.push(shuffledIndex);
+        }
+      });
+    });
+
+    return {
+      ...data,
+      choices: shuffledChoices,
+      answer: correctAnswers,
+    };
+  };
+
   return (
     <div
       className={`${styles["flashcard-container"]} flex flex-col justify-start`}
@@ -64,7 +88,7 @@ const FlashCards = () => {
         }}
       >
         <Question
-          data={cards[currentCardIndex]}
+          data={handleShuffling(cards[currentCardIndex])}
           numOfQuestions={cards.length}
           questionNumber={currentCardIndex + 1}
         />

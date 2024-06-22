@@ -1,7 +1,8 @@
 import { IFlashCard, IQuestion } from "@/_lib/definitions";
 import React from "react";
+import { shuffle } from "lodash";
 
-const Question = ({
+export const Question = ({
   data,
   questionNumber,
   numOfQuestions,
@@ -11,6 +12,24 @@ const Question = ({
   numOfQuestions: number;
 }): JSX.Element => {
   const { question, choices, answer, showAnswer } = data;
+  console.log("answer", answer);
+
+  const shuffledChoices = shuffle(choices);
+  const correctAnswers: number[] = [];
+
+  // for each choice
+  choices.forEach((choice, choiceIndex) => {
+    // for each shuffledChoice
+    // given the choice index,
+    shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
+      //find in shuffledChoices the same string and get it's index if the choice index is an answer.
+      if (answer.includes(choiceIndex) && choice === shuffledChoice) {
+        correctAnswers.push(shuffledIndex);
+      }
+    });
+  });
+
+  console.log("correctAnswers", correctAnswers);
 
   return (
     <div>
@@ -21,28 +40,31 @@ const Question = ({
         <li className="li-question  mb-12 text-2xl">
           <span className="font-500">{question}</span>
         </li>
-        {Object.keys(choices).map((key, i) => {
+        {shuffledChoices.map((choice, choiceIndex) => {
           return (
             <li
-              key={i}
+              key={choiceIndex}
               className={`li-choice mb-3 ${
                 showAnswer
-                  ? answer.find((a) => a === (key as keyof IQuestion))
+                  ? // "A" === index is 0, 1, where 0 is A, 1 is B, etc.
+                    correctAnswers.find(
+                      (answerIndex) => answerIndex === choiceIndex
+                    )
                     ? ""
                     : "line-through" + " opacity-50"
                   : ""
               }`}
             >
-              {i == 0
+              {choiceIndex == 0
                 ? "A: "
-                : i === 1
+                : choiceIndex === 1
                 ? "B: "
-                : i === 2
+                : choiceIndex === 2
                 ? "C: "
-                : i === 3
+                : choiceIndex === 3
                 ? "D: "
                 : "E: "}
-              {choices[key as keyof IQuestion]}
+              {choice}
             </li>
           );
         })}

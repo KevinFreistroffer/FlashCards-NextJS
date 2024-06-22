@@ -15,7 +15,7 @@ export interface IQuestion {
 
 export interface IFlashCard {
   question: string;
-  choices: IQuestion;
-  answer: EAnswer[];
+  choices: string[];
+  answer: number[];
   showAnswer: boolean;
 }
