@@ -3,7 +3,7 @@
 import React from "react";
 import styles from "./styles.module.css";
 import { random, shuffle } from "lodash";
-import Question from "./Question";
+import FlashCard from "./FlashCard";
 import aws_questions from "@/data/aws_questions";
 import { IFlashCard } from "@/_lib/definitions";
 /**
@@ -12,9 +12,7 @@ import { IFlashCard } from "@/_lib/definitions";
  */
 
 const FlashCards = () => {
-  const [cards, setCards] = React.useState<IFlashCard[]>(
-    shuffle([...aws_questions])
-  );
+  const [cards, setCards] = React.useState<IFlashCard[]>([...aws_questions]);
 
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
 
@@ -103,7 +101,7 @@ const FlashCards = () => {
       className={`${styles["flashcard-container"]} flex flex-col justify-start`}
     >
       <div className="flex justify-between items-center mb-12">
-        <h1 className="text-4xl  max-w-xl">AWS Practice Questions</h1>
+        <h2 className="text-4xl max-w-xl">AWS Practice Questions</h2>
         <button
           type="button"
           onClick={shuffleQuestions}
@@ -131,7 +129,7 @@ const FlashCards = () => {
           });
         }}
       >
-        <Question
+        <FlashCard
           data={cards[currentCardIndex]}
           numOfQuestions={cards.length}
           questionNumber={currentCardIndex + 1}

@@ -2,47 +2,9 @@ import { IFlashCard } from "@/_lib/definitions";
 import { EAnswer } from "@/_lib/enums";
 import { shuffle } from "lodash";
 
-export class Question {
-  question: string;
-  choices: string[];
-  answer: number[];
-  showAnswer: boolean;
-
-  constructor(
-    question: string,
-    choices: string[],
-    answer: number[],
-    showAnswer: boolean
-  ) {
-    this.question = question;
-    this.choices = choices;
-    this.answer = answer;
-    this.showAnswer = showAnswer;
-  }
-
-  shuffle() {
-    const shuffledChoices = shuffle(this.choices);
-    const correctAnsers: number[] = [];
-
-    this.choices.forEach((choice) => {
-      shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
-        if (choice === shuffledChoice) {
-          correctAnsers.push(shuffledIndex);
-          return true;
-        }
-        return false;
-      });
-    });
-
-    this.choices = shuffledChoices;
-    this.answer = correctAnsers;
-  }
-}
-
 const aws_questions: IFlashCard[] = [
   {
-    question: `Each department within a company has its own independent AWS account and its own payment method. The company needs to centralize departmental governance and consolidate payments.
-  How can the company achieve these objectives by using AWS services or features?`,
+    question: `Each department within a company has its own independent AWS account and its own payment method. The company needs to centralize departmental governance and consolidate payments. How can the company achieve these objectives by using AWS services or features?`,
     choices: [
       "Use AWS Cloud Map on each departmental account.",
       "Create an organization in AWS Organizations with all features enabled within one account. Invite all accounts to join the organization.", // correct
@@ -53,8 +15,7 @@ const aws_questions: IFlashCard[] = [
     showAnswer: false,
   },
   {
-    question: `A company wants to create a learning application for students. The learning application must give students the option to choose a button to have the text read out loud to them.
-  Which AWS machine learning service will meet this requirement?`,
+    question: `A company wants to create a learning application for students. The learning application must give students the option to choose a button to have the text read out loud to them. Which AWS machine learning service will meet this requirement?`,
     choices: [
       "Amazon Transcribe",
       "Amazon Polly",

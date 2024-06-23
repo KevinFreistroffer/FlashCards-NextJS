@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import styles from "./styles.module.css";
+import configs from "../../../configs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -55,7 +56,7 @@ export default function Body({
       >
         <Header
           menuVisible={menuVisible}
-          title="Flash Cards"
+          title={configs.title}
           toggleMenu={toggleMenu}
         />
         {children}

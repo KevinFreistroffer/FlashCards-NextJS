@@ -2,7 +2,7 @@ import { IFlashCard, IQuestion } from "@/_lib/definitions";
 import React from "react";
 import { shuffle } from "lodash";
 
-export const Question = ({
+export const Card = ({
   data,
   questionNumber,
   numOfQuestions,
@@ -32,14 +32,14 @@ export const Question = ({
   console.log("correctAnswers", correctAnswers);
 
   return (
-    <div>
+    <div data-testid="flashcard">
       <p className="font-bold mr-3 mb-6 text-gray-400">
         {`${questionNumber}/${numOfQuestions}`}
       </p>
+      <p className="p-question  mb-12 text-2xl" data-testid="question">
+        <span className="font-500">{question}</span>
+      </p>
       <ul>
-        <li className="li-question  mb-12 text-2xl">
-          <span className="font-500">{question}</span>
-        </li>
         {shuffledChoices.map((choice, choiceIndex) => {
           return (
             <li
@@ -73,4 +73,4 @@ export const Question = ({
   );
 };
 
-export default Question;
+export default Card;
