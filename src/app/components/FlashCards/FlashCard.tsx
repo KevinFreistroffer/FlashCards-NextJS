@@ -1,11 +1,18 @@
+"use client";
+
 import { IFlashCard, IQuestion } from "@/_lib/definitions";
 import React from "react";
 import { shuffle } from "lodash";
 import styles from "./styles.module.css";
 
-export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
+export const Card = ({
+  data,
+  toggleCard,
+}: {
+  data: IFlashCard;
+  toggleCard: () => void;
+}): JSX.Element => {
   const { question, choices, showAnswer } = data;
-  const shuffledChoices = shuffle(choices);
 
   return (
     <div
@@ -14,10 +21,12 @@ export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
     >
       <div>
         <p className="p-question  mb-12 text-2xl" data-testid="question">
-          <span className="font-500">{question}</span>
+          <span className="font-500" onClick={toggleCard}>
+            {question}
+          </span>
         </p>
         <ul>
-          {shuffledChoices.map(({ choice, correct }, choiceIndex) => {
+          {choices.map(({ choice, correct }, choiceIndex) => {
             return (
               <li
                 key={choiceIndex}

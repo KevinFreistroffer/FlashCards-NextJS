@@ -3,8 +3,9 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { within } from "@testing-library/dom";
 import Page from "@/app/(public)/page";
 import aws_questions from "@/data/aws_questions";
+import { initial } from "lodash";
 
-describe("Home", () => {
+describe("FlashCards", () => {
   const question = () => screen.getByTestId("question");
   const shuffleButton = () => screen.getByRole("button", { name: /shuffle/i });
   const prevButton = () => screen.getByRole("button", { name: /previous/i });
@@ -18,8 +19,31 @@ describe("Home", () => {
 
   it("renders a shuffle button", () => {
     render(<Page />);
-    const button = screen.getByRole("button", { name: /shuffle/i });
-    expect(button).toHaveTextContent("Shuffle");
+    expect(shuffleButton()).toHaveTextContent("Shuffle");
+  });
+
+  it.only("shuffles questions", () => {
+    render(<Page />);
+    const flashcard = screen.getByTestId("flashcard");
+    const initialQuestion = question().textContent;
+    const initialChoices = within(flashcard).getAllByRole("listitem");
+
+    fireEvent.click(shuffleButton());
+
+    const shuffledQuestion = question().textContent;
+    expect(initialQuestion).not.toEqual(shuffledQuestion);
+    screen.debug();
+    const shuffledChoices = within(flashcard).getAllByRole("listitem");
+    for (let choice of initialChoices) {
+      const initialText = choice.textContent;
+      const found = shuffledChoices.find((shuffledChoice) => {
+        const shuffledText = shuffledChoice.textContent;
+        console.log(shuffledText);
+        return shuffledText === initialText;
+      });
+      expect(found).toBe(undefined);
+    }
+    expect(initialChoices).toEqual(shuffledChoices);
   });
 
   it("renders current / total number of questions", () => {

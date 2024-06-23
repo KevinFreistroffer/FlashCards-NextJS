@@ -62,6 +62,21 @@ const FlashCards = () => {
     setCurrentCardIndex(0);
   };
 
+  const toggleCard = () => {
+    setCards((state) => {
+      return state.map((card, index) => {
+        if (index === currentCardIndex) {
+          return {
+            ...card,
+            showAnswer: !card.showAnswer,
+          };
+        } else {
+          return card;
+        }
+      });
+    });
+  };
+
   return (
     <div
       className={`${styles["flashcard-container"]} flex flex-col justify-start`}
@@ -77,23 +92,7 @@ const FlashCards = () => {
         </button>
       </div>
 
-      <div
-        className={`${styles["card-container"]} w-full mb-6`}
-        onClick={() => {
-          setCards((state) => {
-            return state.map((card, index) => {
-              if (index === currentCardIndex) {
-                return {
-                  ...card,
-                  showAnswer: !card.showAnswer,
-                };
-              } else {
-                return card;
-              }
-            });
-          });
-        }}
-      >
+      <div className={`${styles["card-container"]} w-full mb-6`}>
         <div className="flex justify-center items-center mb-6">
           <p className="font-bold mr-3 text-gray-400">
             {`${currentCardIndex + 1}/${cards.length}`}
@@ -111,7 +110,7 @@ const FlashCards = () => {
             ></div>
           </div>
         </div>
-        <FlashCard data={cards[currentCardIndex]} />
+        <FlashCard data={cards[currentCardIndex]} toggleCard={toggleCard} />
       </div>
 
       <div className={`${styles["buttons"]} flex justify-between bg-white`}>
