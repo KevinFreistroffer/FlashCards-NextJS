@@ -12,6 +12,7 @@ export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
       className={`${styles["flashcard"]} min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-20`}
       data-testid="flashcard "
     >
+      <h1>{process.env.APP_TITLE || "FJLDS"}</h1>
       <div>
         <p className="p-question  mb-12 text-2xl" data-testid="question">
           <span className="font-500">{question}</span>
