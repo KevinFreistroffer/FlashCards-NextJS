@@ -2,73 +2,43 @@ import { IFlashCard, IQuestion } from "@/_lib/definitions";
 import React from "react";
 import { shuffle } from "lodash";
 
-export const Card = ({
-  data,
-  questionNumber,
-  numOfQuestions,
-}: {
-  data: IFlashCard;
-  questionNumber: number;
-  numOfQuestions: number;
-}): JSX.Element => {
-  const { question, choices, answer, showAnswer } = data;
-  console.log("answer", answer);
-
+export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
+  const { question, choices, showAnswer } = data;
   const shuffledChoices = shuffle(choices);
-  const correctAnswers: number[] = [];
-
-  // for each choice
-  choices.forEach((choice, choiceIndex) => {
-    // for each shuffledChoice
-    // given the choice index,
-    shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
-      //find in shuffledChoices the same string and get it's index if the choice index is an answer.
-      if (answer.includes(choiceIndex) && choice === shuffledChoice) {
-        correctAnswers.push(shuffledIndex);
-      }
-    });
-  });
-
-  console.log("correctAnswers", correctAnswers);
 
   return (
-    <div data-testid="flashcard">
-      <p className="font-bold mr-3 mb-6 text-gray-400">
-        {`${questionNumber}/${numOfQuestions}`}
-      </p>
-      <p className="p-question  mb-12 text-2xl" data-testid="question">
-        <span className="font-500">{question}</span>
-      </p>
-      <ul>
-        {shuffledChoices.map((choice, choiceIndex) => {
-          return (
-            <li
-              key={choiceIndex}
-              className={`li-choice mb-3 ${
-                showAnswer
-                  ? // "A" === index is 0, 1, where 0 is A, 1 is B, etc.
-                    correctAnswers.find(
-                      (answerIndex) => answerIndex === choiceIndex
-                    )
-                    ? ""
-                    : "line-through" + " opacity-50"
-                  : ""
-              }`}
-            >
-              {choiceIndex == 0
-                ? "A: "
-                : choiceIndex === 1
-                ? "B: "
-                : choiceIndex === 2
-                ? "C: "
-                : choiceIndex === 3
-                ? "D: "
-                : "E: "}
-              {choice}
-            </li>
-          );
-        })}
-      </ul>
+    <div
+      className="min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-10"
+      data-testid="flashcard "
+    >
+      <div>
+        <p className="p-question  mb-12 text-2xl" data-testid="question">
+          <span className="font-500">{question}</span>
+        </p>
+        <ul>
+          {shuffledChoices.map(({ choice, correct }, choiceIndex) => {
+            return (
+              <li
+                key={choiceIndex}
+                className={`li-choice mb-3 ${
+                  showAnswer ? (correct ? "" : "line-through") : ""
+                }`}
+              >
+                {choiceIndex == 0
+                  ? "A: "
+                  : choiceIndex === 1
+                  ? "B: "
+                  : choiceIndex === 2
+                  ? "C: "
+                  : choiceIndex === 3
+                  ? "D: "
+                  : "E: "}
+                {choice}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };

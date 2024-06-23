@@ -1,100 +1,66 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./styles.module.css";
 import { random, shuffle } from "lodash";
 import FlashCard from "./FlashCard";
 import aws_questions from "@/data/aws_questions";
 import { IFlashCard } from "@/_lib/definitions";
-/**
- *
- * @returns
- */
 
 const FlashCards = () => {
   const [cards, setCards] = React.useState<IFlashCard[]>([...aws_questions]);
-
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * Sets showAnswer to false for all cards except the current card.
+   */
+  const resetNonActiveCardState = () => {
+    setCards((state) => {
+      return state.map((card, index) => {
+        if (index === currentCardIndex) {
+          return {
+            ...card,
+            showAnswer: false,
+          };
+        } else {
+          return card;
+        }
+      });
+    });
+  };
 
   const handleNextCard = () => {
     setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    resetNonActiveCardState();
   };
 
   const handlePrevCard = () => {
-    console.log("prev card", currentCardIndex);
     setCurrentCardIndex(
       (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
     );
-    console.log("prev cardz", currentCardIndex);
-    // setCards((state) => {
-    //   return state.map((card, index) => {
-    //     if (index === currentCardIndex) {
-    //       return {
-    //         ...card,
-    //         showAnswer: false,
-    //       };
-    //     } else {
-    //       return card;
-    //     }
-    //   });
-    // });
+    resetNonActiveCardState();
   };
 
+  /**
+   * Shuffles the questions and choices.
+   */
   const shuffleQuestions = () => {
     setCards((state) => {
-      console.log("randomizing");
       const shuffledCards = shuffle(state);
       return shuffledCards.map((card) => {
-        const { choices, answer } = card;
+        const { choices } = card;
         const shuffledChoices = shuffle(choices);
-        const correctAnswers: number[] = [];
-
-        choices.forEach((choice, choiceIndex) => {
-          // for each shuffledChoice
-          // given the choice index,
-          shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
-            //find in shuffledChoices the same string and get it's index if the choice index is an answer.
-            if (answer.includes(choiceIndex) && choice === shuffledChoice) {
-              correctAnswers.push(shuffledIndex);
-            }
-          });
-        });
 
         return {
           ...card,
           choices: shuffledChoices,
-          answer: correctAnswers,
           showAnswer: false,
         };
       });
     });
     setCurrentCardIndex(0);
   };
-
-  // const shuffleChoices = (data: IFlashCard) => {
-  //   const { choices, answer } = data;
-  //   const shuffledChoices = shuffle(choices);
-  //   const correctAnswers: number[] = [];
-
-  //   // for each choice
-  //   choices.forEach((choice, choiceIndex) => {
-  //     // for each shuffledChoice
-  //     // given the choice index,
-  //     shuffledChoices.forEach((shuffledChoice, shuffledIndex) => {
-  //       //find in shuffledChoices the same string and get it's index if the choice index is an answer.
-  //       if (answer.includes(choiceIndex) && choice === shuffledChoice) {
-  //         correctAnswers.push(shuffledIndex);
-  //       }
-  //     });
-  //   });
-
-  //   return {
-  //     ...data,
-  //     choices: shuffledChoices,
-  //     answer: correctAnswers,
-  //     showAnswer: false,
-  //   };
-  // };
 
   return (
     <div
@@ -112,10 +78,9 @@ const FlashCards = () => {
       </div>
 
       <div
-        className="card-container min-h-96 max-h-96 w-full mb-6 overflow-y-auto"
+        className="card-container min-h-96 max-h-96 w-full mb-6"
         onClick={() => {
           setCards((state) => {
-            // i need to find the current card and toggle it's showQuestion.
             return state.map((card, index) => {
               if (index === currentCardIndex) {
                 return {
@@ -129,14 +94,24 @@ const FlashCards = () => {
           });
         }}
       >
-        <FlashCard
-          data={cards[currentCardIndex]}
-          numOfQuestions={cards.length}
-          questionNumber={currentCardIndex + 1}
-        />
+        <div className="flex justify-center items-center mb-6">
+          <p className="font-bold mr-3 text-gray-400">
+            {`${currentCardIndex + 1}/${cards.length}`}
+          </p>
+          <div className={`${styles["progress-bar"]} bg-gray-200 rounded h-3`}>
+            <div
+              ref={progressRef}
+              style={{
+                width: `${((currentCardIndex + 1) / cards.length) * 100}%`,
+              }}
+              className="bg-gray-500 w-2 h-full"
+            ></div>
+          </div>
+        </div>
+        <FlashCard data={cards[currentCardIndex]} />
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between bg-white">
         <button
           className="rounded p-3 border mr-2 flex-1 bg-black text-white"
           onClick={handlePrevCard}

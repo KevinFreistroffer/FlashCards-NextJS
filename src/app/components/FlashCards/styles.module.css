@@ -30,3 +30,12 @@
 .modal-content__title {
   font-size: 2vw;
 }
+
+.progress-bar {
+  width: 100%;
+  margin: 1rem;
+}
+
+.progress {
+  width: 0;
+}

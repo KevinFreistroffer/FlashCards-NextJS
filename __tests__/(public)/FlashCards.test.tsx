@@ -41,7 +41,7 @@ describe("Home", () => {
     const flashcard = screen.getByTestId("flashcard");
     const choices = within(flashcard).getAllByRole("listitem");
     expect(choices).toHaveLength(aws_questions[0].choices.length);
-    aws_questions[0].choices.forEach((choice, index) => {
+    aws_questions[0].choices.forEach(({ choice, correct }, index) => {
       expect(choices[index]).toHaveTextContent(choice, {
         normalizeWhitespace: true,
       });
