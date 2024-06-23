@@ -54,11 +54,7 @@ export default function Body({
         id={styles["not-menu-container"]}
         className={` ${styles[menuVisible ? "menu-open" : "menu-closed"]}`}
       >
-        <Header
-          menuVisible={menuVisible}
-          title={configs.title}
-          toggleMenu={toggleMenu}
-        />
+        <Header menuVisible={menuVisible} toggleMenu={toggleMenu} />
         {children}
         {/* <Footer /> */}
       </div>
