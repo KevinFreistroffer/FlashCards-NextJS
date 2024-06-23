@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header snapshot 1`] = `
+<div>
+  <header
+    class="header "
+  >
+    <h1>
+      Flash Cards
+    </h1>
+    <nav
+      class="nav"
+    >
+      <i
+        class="fa fa-bars"
+        id="menu-toggle"
+      />
+      <ul
+        class="nav__ul"
+      >
+        <li
+          class="ul__li  mr-3"
+        >
+          <a
+            class="ul__li   mr-3"
+            href="/"
+          >
+            Home
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</div>
+`;

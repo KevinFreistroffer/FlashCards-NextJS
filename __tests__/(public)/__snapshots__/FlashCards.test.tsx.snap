@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home snapshot 1`] = `
+<div>
+  <main
+    class="flex min-h-screen justify-center mt-30 mb-20  p-24"
+    id="main-screen"
+  >
+    <div
+      class="flashcard-container flex flex-col justify-start"
+    >
+      <div
+        class="flex justify-between items-center mb-12"
+      >
+        <h2
+          class="text-4xl max-w-xl"
+        >
+          AWS Practice Questions
+        </h2>
+        <button
+          class="border rounded p-3 bg-black text-white pointer"
+          type="button"
+        >
+          <i
+            class="fa-solid fa-shuffle text-white"
+          />
+           Shuffle?
+        </button>
+      </div>
+      <div
+        class="card-container w-full mb-6"
+      >
+        <div
+          class="flex justify-center items-center mb-6"
+        >
+          <p
+            class="font-bold mr-3 text-gray-400"
+          >
+            1/20
+          </p>
+          <div
+            class="progress-bar bg-gray-200 rounded h-3"
+          >
+            <div
+              class="bg-gray-500 w-2 h-full"
+              style="width: 5%;"
+            />
+          </div>
+        </div>
+        <div
+          class="flashcard min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-20"
+          data-testid="flashcard "
+        >
+          <div>
+            <p
+              class="p-question  mb-12 text-2xl"
+              data-testid="question"
+            >
+              <span
+                class="font-500"
+              >
+                Each department within a company has its own independent AWS account and its own payment method. The company needs to centralize departmental governance and consolidate payments. How can the company achieve these objectives by using AWS services or features?
+              </span>
+            </p>
+            <ul>
+              <li
+                class="li-choice mb-4 "
+              >
+                A: 
+                Use AWS Systems Manager OpsCenter.
+              </li>
+              <li
+                class="li-choice mb-4 "
+              >
+                B: 
+                Use the AWS Cost and Usage Reports page of the AWS Billing and Cost Management console.
+              </li>
+              <li
+                class="li-choice mb-4 "
+              >
+                C: 
+                Create an organization in AWS Organizations with all features enabled within one account. Invite all accounts to join the organization.
+              </li>
+              <li
+                class="li-choice mb-4 "
+              >
+                D: 
+                Use AWS Cloud Map on each departmental account.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="buttons flex justify-between bg-white"
+      >
+        <button
+          class="rounded p-3 border mr-2 flex-1 bg-black text-white"
+          disabled=""
+          type="button"
+        >
+          Previous
+        </button>
+        <button
+          class="rounded p-3 border flex-1 bg-black text-white"
+          type="button"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+`;

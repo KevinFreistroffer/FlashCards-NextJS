@@ -5,14 +5,16 @@ import configs from "../../src/configs";
 import { publicRoutes } from "@/app/(public)/routes";
 describe("Header", () => {
   const mockToggleMenu = jest.fn();
-  it("renders a heading & menu", () => {
-    render(
-      <Header
-        menuVisible={false}
-        toggleMenu={mockToggleMenu}
-        title={configs.title}
-      />
+
+  it("snapshot", () => {
+    const { container } = render(
+      <Header menuVisible={false} toggleMenu={mockToggleMenu} />
     );
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders a heading & menu", () => {
+    render(<Header menuVisible={false} toggleMenu={mockToggleMenu} />);
     screen.debug();
 
     const heading = screen.getByRole("heading", { level: 1 });
