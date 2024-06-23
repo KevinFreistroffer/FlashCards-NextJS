@@ -1,6 +1,7 @@
 import { IFlashCard, IQuestion } from "@/_lib/definitions";
 import React from "react";
 import { shuffle } from "lodash";
+import styles from "./styles.module.css";
 
 export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
   const { question, choices, showAnswer } = data;
@@ -8,7 +9,7 @@ export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
 
   return (
     <div
-      className="min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-20"
+      className={`${styles["flashcard"]} min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-20`}
       data-testid="flashcard "
     >
       <div>

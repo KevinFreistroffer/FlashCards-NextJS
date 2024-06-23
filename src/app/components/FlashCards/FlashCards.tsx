@@ -78,7 +78,7 @@ const FlashCards = () => {
       </div>
 
       <div
-        className="card-container min-h-96 max-h-96 w-full mb-6"
+        className={`${styles["card-container"]} w-full mb-6`}
         onClick={() => {
           setCards((state) => {
             return state.map((card, index) => {
@@ -111,7 +111,7 @@ const FlashCards = () => {
         <FlashCard data={cards[currentCardIndex]} />
       </div>
 
-      <div className="flex justify-between bg-white">
+      <div className={`${styles["buttons"]} flex justify-between bg-white`}>
         <button
           className="rounded p-3 border mr-2 flex-1 bg-black text-white"
           onClick={handlePrevCard}
