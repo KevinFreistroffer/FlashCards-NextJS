@@ -98,7 +98,10 @@ const FlashCards = () => {
           <p className="font-bold mr-3 text-gray-400">
             {`${currentCardIndex + 1}/${cards.length}`}
           </p>
-          <div className={`${styles["progress-bar"]} bg-gray-200 rounded h-3`}>
+          <div
+            className={`${styles["progress-bar"]} bg-gray-200 rounded h-3`}
+            data-testid="progress-bar"
+          >
             <div
               ref={progressRef}
               style={{
