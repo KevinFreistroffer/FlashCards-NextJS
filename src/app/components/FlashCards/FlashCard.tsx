@@ -8,7 +8,7 @@ export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
 
   return (
     <div
-      className="min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-10"
+      className="min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-20"
       data-testid="flashcard "
     >
       <div>
@@ -20,8 +20,12 @@ export const Card = ({ data }: { data: IFlashCard }): JSX.Element => {
             return (
               <li
                 key={choiceIndex}
-                className={`li-choice mb-3 ${
-                  showAnswer ? (correct ? "" : "line-through") : ""
+                className={`li-choice mb-4 ${
+                  showAnswer
+                    ? correct
+                      ? "font-semibold"
+                      : "line-through text-gray-300"
+                    : ""
                 }`}
               >
                 {choiceIndex == 0
