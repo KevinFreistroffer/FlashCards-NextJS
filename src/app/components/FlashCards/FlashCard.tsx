@@ -8,11 +8,29 @@ import styles from "./styles.module.css";
 export const Card = ({
   data,
   toggleCard,
+  setGuesses,
 }: {
   data: IFlashCard;
+  setGuesses: (guesses: number) => void;
   toggleCard: () => void;
 }): JSX.Element => {
-  const { question, choices, showAnswer } = data;
+  const { question, choices, showAnswer, maxGuesses, guesses } = data;
+  const selectAnswer = (choiceIndex: number) => {
+    /**
+     * so it would set the guesses in the card.
+     */
+    // if (guesses.includes(choiceIndex)) {
+    //   setGuesses((state) => state.filter((item) => item !== choiceIndex));
+    // } else {
+    //   setGuesses((state) => {
+    //     if (maxGuesses === 1) {
+    //       return [choiceIndex];
+    //     } else {
+    //       return [...state, choiceIndex];
+    //     }
+    //   });
+    // }
+  };
 
   return (
     <div
@@ -21,16 +39,17 @@ export const Card = ({
     >
       <div>
         <p className="p-question  mb-12 text-2xl" data-testid="question">
-          <span className="font-500" onClick={toggleCard}>
-            {question}
-          </span>
+          <span className="font-500">{question}</span>
         </p>
         <ul>
           {choices.map(({ choice, correct }, choiceIndex) => {
             return (
               <li
+                onClick={() => setGuesses(choiceIndex)}
                 key={choiceIndex}
-                className={`li-choice mb-4 ${
+                className={`${
+                  styles["li-choice"]
+                } mb-4 flex items-center cursor-pointer p-2 rounded ${
                   showAnswer
                     ? correct
                       ? "font-semibold"
@@ -38,16 +57,26 @@ export const Card = ({
                     : ""
                 }`}
               >
-                {choiceIndex == 0
-                  ? "A: "
-                  : choiceIndex === 1
-                  ? "B: "
-                  : choiceIndex === 2
-                  ? "C: "
-                  : choiceIndex === 3
-                  ? "D: "
-                  : "E: "}
-                {choice}
+                <input
+                  type="checkbox"
+                  name="select"
+                  id=""
+                  checked={guesses.includes(choiceIndex)}
+                  value={choiceIndex}
+                  className="w-4 h-4 mr-4"
+                />
+                <span>
+                  {/* {choiceIndex == 0
+                    ? "A: "
+                    : choiceIndex === 1
+                    ? "B: "
+                    : choiceIndex === 2
+                    ? "C: "
+                    : choiceIndex === 3
+                    ? "D: "
+                    : "E: "} */}
+                  {choice}
+                </span>
               </li>
             );
           })}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 import { random, shuffle } from "lodash";
 import FlashCard from "./FlashCard";
@@ -21,10 +21,11 @@ const FlashCards = () => {
         if (index === currentCardIndex) {
           return {
             ...card,
+
             showAnswer: false,
           };
         } else {
-          return card;
+          return { ...card };
         }
       });
     });
@@ -56,6 +57,7 @@ const FlashCards = () => {
           ...card,
           choices: shuffledChoices,
           showAnswer: false,
+          guesses: [],
         };
       });
     });
@@ -92,8 +94,8 @@ const FlashCards = () => {
         </button>
       </div>
 
-      <div className={`${styles["card-container"]} w-full mb-6`}>
-        <div className="flex justify-center items-center mb-6">
+      <div className={`${styles["card-container"]} w-full`}>
+        <div className="flex justify-center items-center mb-1">
           <p className="font-bold mr-3 text-gray-400">
             {`${currentCardIndex + 1}/${cards.length}`}
           </p>
@@ -110,26 +112,63 @@ const FlashCards = () => {
             ></div>
           </div>
         </div>
-        <FlashCard data={cards[currentCardIndex]} toggleCard={toggleCard} />
+        <FlashCard
+          data={cards[currentCardIndex]}
+          toggleCard={toggleCard}
+          setGuesses={(guesses: number) => {
+            setCards((state) => {
+              return state.map((card, index) => {
+                if (index === currentCardIndex) {
+                  if (card.guesses.includes(guesses)) {
+                    return {
+                      ...card,
+                      guesses: card.guesses.filter((item) => item !== guesses),
+                    };
+                  } else {
+                    return {
+                      ...card,
+                      guesses:
+                        card.maxGuesses === 1
+                          ? [guesses]
+                          : [...card.guesses, guesses],
+                    };
+                  }
+                } else {
+                  return card;
+                }
+              });
+            });
+          }}
+        />
       </div>
 
-      <div className={`${styles["buttons"]} flex justify-between bg-white`}>
-        <button
-          className="rounded p-3 border mr-2 flex-1 bg-black text-white"
-          onClick={handlePrevCard}
-          type="button"
-          disabled={currentCardIndex === 0 ? true : false}
-        >
-          Previous
-        </button>
-        <button
-          className="rounded p-3 border flex-1 bg-black text-white"
-          onClick={handleNextCard}
-          type="button"
-          disabled={currentCardIndex === cards.length - 1 ? true : false}
-        >
-          Next
-        </button>
+      <div
+        className={`${styles["buttons"]} flex flex-col justify-between bg-white`}
+      >
+        <div className="flex">
+          <button
+            className={`${styles["prev-button"]} rounded p-3 border mr-2 flex-1 bg-black text-white`}
+            onClick={handlePrevCard}
+            type="button"
+            disabled={currentCardIndex === 0 ? true : false}
+          >
+            Previous
+          </button>
+          <button
+            className={`${styles["continue-button"]} rounded p-3 border flex-1 bg-black text-white`}
+            onClick={handleNextCard}
+            type="button"
+            disabled={
+              currentCardIndex === cards.length - 1
+                ? true
+                : false ||
+                  cards[currentCardIndex].guesses.length <
+                    cards[currentCardIndex].maxGuesses
+            }
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </div>
   );

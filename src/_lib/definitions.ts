@@ -17,4 +17,6 @@ export interface IFlashCard {
   question: string;
   choices: { choice: string; correct: boolean }[];
   showAnswer: boolean;
+  maxGuesses: number;
+  guesses: number[];
 }

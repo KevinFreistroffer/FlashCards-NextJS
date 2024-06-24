@@ -10,12 +10,30 @@
   height: 30rem;
 }
 
+.li-choice:hover {
+  background-color: rgba(0, 0, 0, 0.137);
+}
+
 .card-container {
   max-height: 30rem;
 }
 
 .buttons {
   box-shadow: 0 -0.8125rem 0.4375rem #ffffffc2;
+}
+
+.buttons button {
+  background-color: rgb(38, 34, 98);
+}
+
+.continue-button:disabled,
+.prev-button:disabled {
+  cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.guess-button {
+  background-color: #65b8ff;
 }
 
 .progress-bar {
