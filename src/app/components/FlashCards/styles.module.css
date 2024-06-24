@@ -14,6 +14,12 @@
   background-color: rgba(0, 0, 0, 0.137);
 }
 
+.label {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 .card-container {
   max-height: 30rem;
 }

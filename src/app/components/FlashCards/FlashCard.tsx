@@ -4,6 +4,9 @@ import { IFlashCard, IQuestion } from "@/_lib/definitions";
 import React from "react";
 import { shuffle } from "lodash";
 import styles from "./styles.module.css";
+import Checkbox from "@mui/material/Checkbox";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export const Card = ({
   data,
@@ -45,7 +48,6 @@ export const Card = ({
           {choices.map(({ choice, correct }, choiceIndex) => {
             return (
               <li
-                onClick={() => setGuesses(choiceIndex)}
                 key={choiceIndex}
                 className={`${
                   styles["li-choice"]
@@ -58,25 +60,21 @@ export const Card = ({
                 }`}
               >
                 <input
+                  title="guess"
                   type="checkbox"
-                  name="select"
-                  id=""
+                  name="guess"
+                  id={`guess-${choiceIndex}`}
                   checked={guesses.includes(choiceIndex)}
                   value={choiceIndex}
-                  className="w-4 h-4 mr-4"
+                  className="w-4 h-4 mr-4 cursor-pointer"
+                  onChange={() => setGuesses(choiceIndex)}
                 />
-                <span>
-                  {/* {choiceIndex == 0
-                    ? "A: "
-                    : choiceIndex === 1
-                    ? "B: "
-                    : choiceIndex === 2
-                    ? "C: "
-                    : choiceIndex === 3
-                    ? "D: "
-                    : "E: "} */}
+                <label
+                  className={`${styles["label"]} cursor-pointer`}
+                  htmlFor={`guess-${choiceIndex}`}
+                >
                   {choice}
-                </span>
+                </label>
               </li>
             );
           })}
