@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { within } from "@testing-library/dom";
 import Page from "@/app/(public)/page";
-import aws_questions from "@/data/aws_questions";
+import aws_questions from "@/data/aws_practice_exam";
 import { initial } from "lodash";
 
 describe("FlashCards", () => {

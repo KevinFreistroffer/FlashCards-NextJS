@@ -1,4 +1,4 @@
-import { IRoute } from "@/_lib/definitions";
+import { IRoute } from "@/lib/definitions";
 import { text } from "stream/consumers";
 
 export const publicRoutes: IRoute[] = [

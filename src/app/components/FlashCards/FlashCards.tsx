@@ -4,12 +4,28 @@ import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.css";
 import { random, shuffle } from "lodash";
 import FlashCard from "./FlashCard";
-import aws_questions from "@/data/aws_questions";
-import { IFlashCard } from "@/_lib/definitions";
+import aws_questions from "@/data/all";
+import { IFlashCard } from "@/lib/definitions";
+
+export type TContinueButtonState =
+  | EContinueButtonState.CONTINUE
+  | EContinueButtonState.NEXT;
+export enum EContinueButtonState {
+  CONTINUE = "continue",
+  NEXT = "next",
+}
+
+export const cardDefaultValues = {
+  guesses: [],
+  guessedCorrectly: false,
+  showAnswer: false,
+};
 
 const FlashCards = () => {
   const [cards, setCards] = React.useState<IFlashCard[]>([...aws_questions]);
   const [currentCardIndex, setCurrentCardIndex] = React.useState(0);
+  const [continueButtonState, setContinueButtonState] =
+    React.useState<TContinueButtonState>(EContinueButtonState.CONTINUE);
   const progressRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -21,32 +37,59 @@ const FlashCards = () => {
         if (index === currentCardIndex) {
           return {
             ...card,
-
-            showAnswer: false,
           };
         } else {
-          return { ...card };
+          return { ...card, ...cardDefaultValues };
         }
       });
     });
-  };
-
-  const handleNextCard = () => {
-    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
-    resetNonActiveCardState();
   };
 
   const handlePrevCard = () => {
     setCurrentCardIndex(
       (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
     );
-    resetNonActiveCardState();
+    // resetNonActiveCardState();
+  };
+
+  const handleContinue = () => {
+    const correctAnswers = cards[currentCardIndex].choices.map(
+      (choice, index) => {
+        if (choice.correct) {
+          return choice.id;
+        }
+      }
+    );
+    const { guesses } = cards[currentCardIndex];
+    const isCorrect = guesses.every((guess) => correctAnswers.includes(guess));
+
+    setCards((state) => {
+      return state.map((card, index) => {
+        if (index === currentCardIndex) {
+          return {
+            ...card,
+            guessedCorrectly: isCorrect,
+            showAnswer: true,
+          };
+        } else {
+          return card;
+        }
+      });
+    });
+
+    setContinueButtonState(EContinueButtonState.NEXT);
+  };
+
+  const handleNextCard = () => {
+    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    // resetNonActiveCardState();
   };
 
   /**
    * Shuffles the questions and choices.
    */
   const shuffleQuestions = () => {
+    console.log("shuffleQuestions");
     setCards((state) => {
       const shuffledCards = shuffle(state);
       return shuffledCards.map((card) => {
@@ -55,29 +98,29 @@ const FlashCards = () => {
 
         return {
           ...card,
+          ...cardDefaultValues,
           choices: shuffledChoices,
-          showAnswer: false,
-          guesses: [],
         };
       });
     });
     setCurrentCardIndex(0);
+    setContinueButtonState(EContinueButtonState.CONTINUE);
   };
 
-  const toggleCard = () => {
-    setCards((state) => {
-      return state.map((card, index) => {
-        if (index === currentCardIndex) {
-          return {
-            ...card,
-            showAnswer: !card.showAnswer,
-          };
-        } else {
-          return card;
-        }
-      });
-    });
-  };
+  // const toggleCard = () => {
+  //   setCards((state) => {
+  //     return state.map((card, index) => {
+  //       if (index === currentCardIndex) {
+  //         return {
+  //           ...card,
+  //           showAnswer: !card.showAnswer,
+  //         };
+  //       } else {
+  //         return card;
+  //       }
+  //     });
+  //   });
+  // };
 
   return (
     <div
@@ -88,7 +131,7 @@ const FlashCards = () => {
         <button
           type="button"
           onClick={shuffleQuestions}
-          className="border rounded p-3 bg-black text-white pointer"
+          className={`${styles["shuffle-button"]} border rounded p-3 bg-black text-white pointer`}
         >
           <i className="fa-solid fa-shuffle text-white"></i> Shuffle?
         </button>
@@ -114,23 +157,31 @@ const FlashCards = () => {
         </div>
         <FlashCard
           data={cards[currentCardIndex]}
-          toggleCard={toggleCard}
-          setGuesses={(guesses: number) => {
-            setCards((state) => {
-              return state.map((card, index) => {
+          continueButtonState={continueButtonState}
+          setGuesses={(guess: number) => {
+            setCards((cardsState) => {
+              return cardsState.map((card, index) => {
+                const correctChoices = card.choices.filter((choice) => choice);
                 if (index === currentCardIndex) {
-                  if (card.guesses.includes(guesses)) {
+                  // De-selects the checkbox if it is already selected.
+                  if (card.guesses.includes(guess)) {
+                    const _guesses = card.guesses.filter(
+                      (item) => item !== guess
+                    );
                     return {
                       ...card,
-                      guesses: card.guesses.filter((item) => item !== guesses),
+                      guesses: _guesses,
                     };
                   } else {
+                    // If the card only allows one guess, it replaces the current guess with the new guess.
+                    // Otherwise, it adds the new guess to the guesses array.
+                    const _guesses =
+                      card.maxGuesses === 1
+                        ? [guess]
+                        : [...card.guesses, guess];
                     return {
                       ...card,
-                      guesses:
-                        card.maxGuesses === 1
-                          ? [guesses]
-                          : [...card.guesses, guesses],
+                      guesses: _guesses,
                     };
                   }
                 } else {
@@ -154,20 +205,37 @@ const FlashCards = () => {
           >
             Previous
           </button>
-          <button
-            className={`${styles["continue-button"]} rounded p-3 border flex-1 bg-black text-white`}
-            onClick={handleNextCard}
-            type="button"
-            disabled={
-              currentCardIndex === cards.length - 1
-                ? true
-                : false ||
-                  cards[currentCardIndex].guesses.length <
-                    cards[currentCardIndex].maxGuesses
-            }
-          >
-            Continue
-          </button>
+          {continueButtonState === EContinueButtonState.CONTINUE ? (
+            <button
+              className={`${styles["continue-button"]} rounded p-3 border flex-1 bg-black text-white`}
+              onClick={handleContinue}
+              type="button"
+              disabled={
+                currentCardIndex === cards.length - 1
+                  ? true
+                  : false ||
+                    cards[currentCardIndex].guesses.length <
+                      cards[currentCardIndex].maxGuesses
+              }
+            >
+              Continue
+            </button>
+          ) : (
+            <button
+              className={`${styles["next-button"]} rounded p-3 border flex-1 bg-black text-white`}
+              onClick={handleNextCard}
+              type="button"
+              disabled={
+                currentCardIndex === cards.length - 1
+                  ? true
+                  : false ||
+                    cards[currentCardIndex].guesses.length <
+                      cards[currentCardIndex].maxGuesses
+              }
+            >
+              Next
+            </button>
+          )}
         </div>
       </div>
     </div>

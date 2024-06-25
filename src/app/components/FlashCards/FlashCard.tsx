@@ -1,43 +1,35 @@
 "use client";
 
-import { IFlashCard, IQuestion } from "@/_lib/definitions";
-import React from "react";
+import { IFlashCard, IQuestion } from "@/lib/definitions";
+import React, { useEffect } from "react";
 import { shuffle } from "lodash";
 import styles from "./styles.module.css";
 import Checkbox from "@mui/material/Checkbox";
+import { EContinueButtonState } from "./FlashCards";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export const Card = ({
   data,
-  toggleCard,
   setGuesses,
+  continueButtonState,
 }: {
   data: IFlashCard;
+  continueButtonState: EContinueButtonState;
   setGuesses: (guesses: number) => void;
-  toggleCard: () => void;
 }): JSX.Element => {
-  const { question, choices, showAnswer, maxGuesses, guesses } = data;
-  const selectAnswer = (choiceIndex: number) => {
-    /**
-     * so it would set the guesses in the card.
-     */
-    // if (guesses.includes(choiceIndex)) {
-    //   setGuesses((state) => state.filter((item) => item !== choiceIndex));
-    // } else {
-    //   setGuesses((state) => {
-    //     if (maxGuesses === 1) {
-    //       return [choiceIndex];
-    //     } else {
-    //       return [...state, choiceIndex];
-    //     }
-    //   });
-    // }
-  };
+  const {
+    question,
+    choices,
+    showAnswer,
+    maxGuesses,
+    guesses,
+    guessedCorrectly,
+  } = data;
 
   return (
     <div
-      className={`${styles["flashcard"]} min-h-96 max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-20`}
+      className={`${styles["flashcard"]} max-h-96 w-full mb-6 overflow-y-auto pt-6 px-10 pb-20`}
       data-testid="flashcard "
     >
       <div>
@@ -45,39 +37,75 @@ export const Card = ({
           <span className="font-500">{question}</span>
         </p>
         <ul>
-          {choices.map(({ choice, correct }, choiceIndex) => {
-            return (
-              <li
-                key={choiceIndex}
-                className={`${
-                  styles["li-choice"]
-                } mb-4 flex items-center cursor-pointer p-2 rounded ${
-                  showAnswer
-                    ? correct
-                      ? "font-semibold"
-                      : "line-through text-gray-300"
-                    : ""
-                }`}
-              >
-                <input
-                  title="guess"
-                  type="checkbox"
-                  name="guess"
-                  id={`guess-${choiceIndex}`}
-                  checked={guesses.includes(choiceIndex)}
-                  value={choiceIndex}
-                  className="w-4 h-4 mr-4 cursor-pointer"
-                  onChange={() => setGuesses(choiceIndex)}
-                />
-                <label
-                  className={`${styles["label"]} cursor-pointer`}
-                  htmlFor={`guess-${choiceIndex}`}
+          {choices.map(
+            (
+              { choice, correct: isACorrectChoice, id: choiceId },
+              choiceIndex
+            ) => {
+              return (
+                <li
+                  key={choiceIndex}
+                  className={`${styles["li-choice"]} ${
+                    showAnswer
+                      ? isACorrectChoice
+                        ? styles["correct-choice"]
+                        : styles["incorrect-choice"]
+                      : ""
+                  } mb-4 flex items-center cursor-pointer p-2 hover:bg-gray-100 ${
+                    showAnswer ? (isACorrectChoice ? "font-semibold " : "") : ""
+                  }`}
                 >
-                  {choice}
-                </label>
+                  <input
+                    title="guess"
+                    type="checkbox"
+                    name="guess"
+                    id={`guess-${choiceId}`}
+                    checked={guesses.includes(choiceId)}
+                    value={choiceId}
+                    className="w-4 h-4 mr-4 cursor-pointer"
+                    onChange={() => {
+                      // Only enables selecting choices if the answers haven't been "submitted".
+                      // There's no "retry".
+                      if (!showAnswer) {
+                        setGuesses(choiceId);
+                      }
+                    }}
+                  />
+                  <label
+                    className={`${styles["label"]} cursor-pointer`}
+                    htmlFor={`guess-${choiceId}`}
+                  >
+                    {choice}
+                  </label>
+                </li>
+              );
+            }
+          )}
+          {showAnswer ? (
+            guessedCorrectly ? (
+              <li className={`text-center bg-gray-100 p-6`}>
+                <span
+                  className={`${styles["correct-feedback feedback"]} flex flex-col justify-center items-center w-8 h-8 text-center border p-8 rounded-full mb-3`}
+                >
+                  <i className="fa fa-check"></i>
+                </span>{" "}
+                <span className="text-sm">Correct</span>
               </li>
-            );
-          })}
+            ) : (
+              <li
+                className={`text-center flex flex-col justify-center items-center justify-center mt-10 bg-gray-100 p-6`}
+              >
+                <span
+                  className={`${styles["incorrect-feedback feedback"]} flex flex-col justify-center items-center w-8 h-8 text-center border p-8 rounded-full mb-3`}
+                >
+                  <i
+                    className={`${styles["feedback-icon"]} fa fa-xmark text-3xl `}
+                  ></i>
+                </span>{" "}
+                <span className="text-sm">Incorrect</span>
+              </li>
+            )
+          ) : null}
         </ul>
       </div>
     </div>
