@@ -1,14 +1,14 @@
 .flashcard {
   /* min-height: 30rem;
   max-height: 30rem; */
-  height: var(--maxHeight);
-  min-height: var(--maxHeight);
+  --max-height: 50rem;
+  --min-height: 50rem;
 }
 
 .flashcard-container {
   width: 80%;
   max-width: 45rem;
-  height: var(--maxHeight);
+  height: 50rem;
 }
 
 .label {
@@ -18,7 +18,7 @@
 }
 
 .card-container {
-  max-height: var(--maxHeight);
+  max-height: 50rem;
 }
 .shuffle-button {
   background-color: rgb(38, 34, 98);

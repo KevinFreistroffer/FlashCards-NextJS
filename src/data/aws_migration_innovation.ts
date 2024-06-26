@@ -102,7 +102,7 @@ export const aws_questions: IFlashCard[] = [
         id: 1,
         choice:
           "A service that enables you to build conversational interfaces using voice and text",
-        correct: false,
+        correct: true,
       },
       {
         id: 2,
@@ -119,7 +119,7 @@ export const aws_questions: IFlashCard[] = [
         id: 4,
         choice:
           "A service that enables you to identify potentially fraudulent online activities",
-        correct: true,
+        correct: false,
       },
     ],
     showAnswer: false,

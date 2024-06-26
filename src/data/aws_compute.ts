@@ -144,35 +144,6 @@ export const aws_questions: IFlashCard[] = [
     guesses: [],
     guessedCorrectly: false,
   },
-  {
-    question: `You want to deploy and manage containerized applications. Which service should you use?`,
-    choices: [
-      {
-        id: 1,
-        choice: "AWS Lambda",
-        correct: false,
-      },
-      {
-        id: 2,
-        choice: "Amazon Simple Notification Service (Amazon SNS)",
-        correct: false,
-      },
-      {
-        id: 3,
-        choice: "Amazon Simple Queue Service (Amazon SQS)",
-        correct: false,
-      },
-      {
-        id: 4,
-        choice: "Amazon Elastic Kubernetes Service (Amazon EKS)",
-        correct: true,
-      },
-    ],
-    showAnswer: false,
-    maxGuesses: 1,
-    guesses: [],
-    guessedCorrectly: false,
-  },
 ];
 
 export default aws_questions;

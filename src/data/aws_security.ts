@@ -155,35 +155,6 @@ export const aws_questions: IFlashCard[] = [
     guesses: [],
     guessedCorrectly: false,
   },
-  {
-    question: `Which task can AWS Key Management Service (AWS KMS) perform?`,
-    choices: [
-      {
-        id: 1,
-        choice: "Configure multi-factor authentication (MFA).",
-        correct: false,
-      },
-      {
-        id: 2,
-        choice: "Update the AWS account root user password.",
-        correct: false,
-      },
-      {
-        id: 3,
-        choice: "Create cryptographic keys.",
-        correct: true,
-      },
-      {
-        id: 4,
-        choice: "Assign permissions to users and groups.",
-        correct: false,
-      },
-    ],
-    showAnswer: false,
-    maxGuesses: 1,
-    guesses: [],
-    guessedCorrectly: false,
-  },
 ];
 
 export default aws_questions;

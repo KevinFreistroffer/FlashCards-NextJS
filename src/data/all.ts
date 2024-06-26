@@ -12,6 +12,7 @@ import { aws_questions as aws_practice_exam } from "@/data/aws_practice_exam";
 import { aws_questions as aws_security } from "@/data/aws_security";
 import { aws_questions as aws_intro } from "@/data/aws_intro";
 import { aws_questions as aws_networking } from "@/data/aws_networking";
+import { aws_questions as info_cards } from "@/data/info_cards";
 
 export const aws_questions: IFlashCard[] = [
   ...aws_practice_exam,
@@ -25,6 +26,7 @@ export const aws_questions: IFlashCard[] = [
   ...aws_pricing_support,
   ...aws_migration_innovation,
   ...aws_cloud_journey,
+  // ...info_cards,
 ];
 
 export default aws_questions;

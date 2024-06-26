@@ -82,6 +82,7 @@ const FlashCards = () => {
 
   const handleNextCard = () => {
     setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    setContinueButtonState(EContinueButtonState.CONTINUE);
     // resetNonActiveCardState();
   };
 
@@ -128,13 +129,25 @@ const FlashCards = () => {
     >
       <div className="flex justify-between items-center mb-12">
         <h2 className="text-4xl max-w-xl">AWS Practice Questions</h2>
-        <button
-          type="button"
-          onClick={shuffleQuestions}
-          className={`${styles["shuffle-button"]} border rounded p-3 bg-black text-white pointer`}
-        >
-          <i className="fa-solid fa-shuffle text-white"></i> Shuffle?
-        </button>
+        <div>
+          <button
+            type="button"
+            onClick={shuffleQuestions}
+            className={`${styles["shuffle-button"]} border rounded p-3 bg-black text-white pointer`}
+          >
+            <i className="fa-solid fa-shuffle text-white"></i> Shuffle
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setCurrentCardIndex(0);
+              resetNonActiveCardState();
+            }}
+            className={`${styles["shuffle-button"]} border rounded p-3 bg-black text-white pointer`}
+          >
+            <i className="fa-solid fa-arrows-rotate"></i> Restart
+          </button>
+        </div>
       </div>
 
       <div className={`${styles["card-container"]} w-full`}>
@@ -211,11 +224,8 @@ const FlashCards = () => {
               onClick={handleContinue}
               type="button"
               disabled={
-                currentCardIndex === cards.length - 1
-                  ? true
-                  : false ||
-                    cards[currentCardIndex].guesses.length <
-                      cards[currentCardIndex].maxGuesses
+                cards[currentCardIndex].guesses.length <
+                cards[currentCardIndex].maxGuesses
               }
             >
               Continue
