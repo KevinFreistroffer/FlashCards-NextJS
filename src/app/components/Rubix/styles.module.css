@@ -1,0 +1,54 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  perspective: 800px;
+  /* -webkit-perspective: 800px; */
+}
+
+.container:hover {
+  /* transform: rotate3d(1, 2, 3, 90deg), scaleX(-1); */
+}
+
+.side {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  font-size: 4rem;
+  color: white;
+  font-weight: 100;
+}
+
+.side-1 {
+  background-color: #f00;
+  transform: scaleX(-1) scaleY(-0.5) scaleZ(-0.1) skew(-10, -5);
+  -webkit-transform: scaleX(-1) scaleY(-0.5) scaleZ(-0.1) skew(-10, -5);
+}
+
+.side-2 {
+  background-color: #0f0;
+}
+
+.side-3 {
+  background-color: #00f;
+}
+
+.side-4 {
+  background-color: #ff0;
+}
+
+.side-5 {
+  background-color: #f0f;
+}
+
+.side-6 {
+  background-color: #0ff;
+}

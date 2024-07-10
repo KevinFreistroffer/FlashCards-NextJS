@@ -10,16 +10,16 @@ export const publicRoutes: IRoute[] = [
   //   route: "/about",
   //   text: "About",
   // },
-  // {
-  //   route: "/signup",
-  //   text: "Sign Up",
-  // },
-  // {
-  //   route: "/login",
-  //   text: "Login",
-  // },
-  // {
-  //   route: "/form",
-  //   text: "Form",
-  // },
+  {
+    route: "/signup",
+    text: "Sign Up",
+  },
+  {
+    route: "/login",
+    text: "Login",
+  },
+  {
+    route: "/dashboard",
+    text: "Dashboard",
+  },
 ];

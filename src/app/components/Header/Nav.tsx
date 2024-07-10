@@ -15,6 +15,7 @@ const Nav = ({
   return (
     <nav className={`${styles["nav"]}`}>
       <i
+        aria-hidden="false"
         id={styles["menu-toggle"]}
         onClick={() => toggleMenu((prev) => !prev)}
         className={"fa fa-bars"}

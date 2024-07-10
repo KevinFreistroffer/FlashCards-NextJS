@@ -21,7 +21,7 @@
       "@/*": ["./src/*"],
       "@/components/*": ["./src/app/components/*"],
       "@/data/*": ["./src/data/*"],
-      "@/lib/*": ["src/lib/*"]
+      "@/lib/*": ["./src/lib/*"]
     }
   },
   "include": [

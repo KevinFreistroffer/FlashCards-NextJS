@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "./styles.css";
 import FlashCards from "../components/FlashCards/FlashCards";
+import Rubix from "../components/Rubix/Rubix";
 
 export default function Home() {
   return (
@@ -9,7 +10,8 @@ export default function Home() {
       id={"main-screen"}
       className="flex min-h-screen justify-center mt-30 mb-20  p-24"
     >
-      <FlashCards />
+      {/* <FlashCards /> */}
+      <Rubix />
     </main>
   );
 }

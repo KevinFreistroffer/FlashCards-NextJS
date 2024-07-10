@@ -3,6 +3,14 @@
   max-height: 30rem; */
   --max-height: 50rem;
   --min-height: 50rem;
+  transition: all 0.2s linear;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  perspective: 1000px;
+  background-color: #eeeeee;
+}
+
+.flashcard:hover {
+  transform: rotate3d(1, 2, 6, 10deg);
 }
 
 .flashcard-container {
